@@ -11,7 +11,7 @@ The app is built using Kotlin and Jetpack Compose. It uses a local JSON Server w
 - Save bookmarks locally
 - Open event locations in Maps
 - Cache events for 5 minutes to reduce unnecessary API requests
-- Use WorkManager to refresh event data in the background, approximately every 6 hours
+- Use WorkManager to refresh event data in the background, approximately every 5 hours
 - Load event images using Coil
 
 ### Tech Stack

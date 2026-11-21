@@ -1,5 +1,6 @@
 package com.babeena.localeventsapp.di
 
+import com.babeena.localeventsapp.BuildConfig
 import com.babeena.localeventsapp.data.remote.EventApiService
 import dagger.Module
 import dagger.Provides
@@ -15,9 +16,15 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit{
+    fun provideBaseUrl(): String{
+        return BuildConfig.BASE_URL
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(baseUrl: String): Retrofit{
         return Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:3000/")
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

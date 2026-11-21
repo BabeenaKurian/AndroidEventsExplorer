@@ -36,6 +36,25 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
+    }
+
+    flavorDimensions += "environment"
+
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"http://10.0.2.2:3000/\""
+            )
+        }
+
+        create("prod") {
+            dimension = "environment"
+
+        }
     }
 }
 
