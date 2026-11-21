@@ -49,6 +49,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.babeena.localeventsapp.ui.theme.primaryRed
 import com.babeena.localeventsapp.utils.DistanceUtils
+import com.babeena.localeventsapp.utils.EventDateUtils.formatEventDate
 
 @Composable
 fun eventScreen(viewModel: EventViewModel) {
@@ -219,8 +220,7 @@ fun eventScreen(viewModel: EventViewModel) {
                                                     )
 
                                                     Text(
-                                                        text =
-                                                            event.dateTime ?: "",
+                                                        text =formatEventDate(event.dateTime ?: ""),
                                                         modifier = Modifier.padding(
                                                             start = 8.dp
                                                         ),

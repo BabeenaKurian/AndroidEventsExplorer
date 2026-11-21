@@ -9,4 +9,8 @@ class EventRepositoryImpl @Inject constructor(private val eventApiService: Event
     override suspend fun getAllEvents(): List<Event> {
         return eventApiService.getAllEvents()
     }
+
+    override suspend fun getEventDetails(id: String): Event {
+            return eventApiService.getEventDetails(id)
+    }
 }
