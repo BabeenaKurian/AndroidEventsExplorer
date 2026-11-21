@@ -52,7 +52,10 @@ import com.babeena.localeventsapp.utils.DistanceUtils
 import com.babeena.localeventsapp.utils.EventDateUtils.formatEventDate
 
 @Composable
-fun eventScreen(viewModel: EventViewModel) {
+fun eventScreen(
+    viewModel: EventViewModel,
+    onEventClick: (String) -> Unit
+) {
 
     val eventUiState by viewModel.eventUiState.collectAsStateWithLifecycle()
     val userLocation by viewModel.userLocation.collectAsStateWithLifecycle()
@@ -166,6 +169,9 @@ fun eventScreen(viewModel: EventViewModel) {
                                                     horizontal = 16.dp,
                                                     vertical = 8.dp
                                                 ),
+                                            onClick = {
+                                                onEventClick(event.id)
+                                            },
                                             shape = RoundedCornerShape(20.dp),
                                             colors = CardDefaults.cardColors(
                                                 containerColor =
@@ -220,7 +226,9 @@ fun eventScreen(viewModel: EventViewModel) {
                                                     )
 
                                                     Text(
-                                                        text =formatEventDate(event.dateTime ?: ""),
+                                                        text = formatEventDate(
+                                                            event.dateTime ?: ""
+                                                        ),
                                                         modifier = Modifier.padding(
                                                             start = 8.dp
                                                         ),

@@ -3,11 +3,13 @@ package com.babeena.localeventsapp.ui.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.babeena.localeventsapp.domain.repository.EventRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class DetailsViewModel @Inject constructor(private val eventRepository: EventRepository) :
     ViewModel() {
     private val _detailsUiState = MutableStateFlow(DetailsUiState())
