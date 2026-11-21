@@ -1,16 +1,57 @@
 package com.babeena.localeventsapp.data.repository
 
+import com.babeena.localeventsapp.data.local.EventDao
+import com.babeena.localeventsapp.data.local.EventEntity
 import com.babeena.localeventsapp.data.remote.EventApiService
 import com.babeena.localeventsapp.domain.model.Event
 import com.babeena.localeventsapp.domain.repository.EventRepository
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
-class EventRepositoryImpl @Inject constructor(private val eventApiService: EventApiService): EventRepository {
+class EventRepositoryImpl @Inject constructor(
+    private val eventApiService: EventApiService,
+    val eventDao: EventDao,
+) : EventRepository {
     override suspend fun getAllEvents(): List<Event> {
-        return eventApiService.getAllEvents()
+        return try {
+            val events = eventApiService.getAllEvents()
+            eventDao.deleteAllEvents()
+            eventDao.insertEvents(events.map { it.toEntity() })
+            events
+        } catch (e: Exception) {
+            val cachedEvents = eventDao.getAllEvents().first()
+            if (cachedEvents.isNotEmpty()) {
+                cachedEvents.map { it.toEvent() }
+            } else {
+                throw e
+            }
+        }
     }
 
     override suspend fun getEventDetails(id: String): Event {
-            return eventApiService.getEventDetails(id)
+        return eventApiService.getEventDetails(id)
     }
+
+
+    private fun Event.toEntity() = EventEntity(
+        id = id,
+        title = title,
+        location = location,
+        dateTime = dateTime,
+        imageUrl = imageUrl,
+        latitude = latitude,
+        longitude = longitude,
+        description = description
+    )
+
+    private fun EventEntity.toEvent() = Event(
+        id = id,
+        title = title,
+        location = location,
+        dateTime = dateTime,
+        imageUrl = imageUrl,
+        latitude = latitude,
+        longitude = longitude,
+        description = description
+    )
 }
