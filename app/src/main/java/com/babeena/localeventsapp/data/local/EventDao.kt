@@ -23,4 +23,10 @@ interface EventDao {
     @Query("SELECT * FROM events WHERE id = :eventId")
     suspend fun getEventById(eventId: String): EventEntity?
 
+    @Transaction
+    suspend fun replaceAllEvents(events: List<EventEntity>) {
+        deleteAllEvents()
+        insertEvents(events)
+    }
+
 }

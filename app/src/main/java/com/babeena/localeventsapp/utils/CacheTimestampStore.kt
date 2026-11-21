@@ -1,4 +1,4 @@
-package com.babeena.localeventsapp.data.repository
+package com.babeena.localeventsapp.utils
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext

@@ -5,6 +5,7 @@ import com.babeena.localeventsapp.data.local.EventEntity
 import com.babeena.localeventsapp.data.remote.EventApiService
 import com.babeena.localeventsapp.domain.model.Event
 import com.babeena.localeventsapp.domain.repository.EventRepository
+import com.babeena.localeventsapp.utils.CacheTimestampStore
 import kotlinx.coroutines.flow.first
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -53,6 +54,15 @@ class EventRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun syncEvents() {
+        val events = eventApiService.getAllEvents()
+
+        eventDao.replaceAllEvents(events.map { it.toEntity() })
+
+        cacheTimestampStore.saveLastFetchTime(
+            System.currentTimeMillis()
+        )
+    }
 
     private fun Event.toEntity() = EventEntity(
         id = id,
