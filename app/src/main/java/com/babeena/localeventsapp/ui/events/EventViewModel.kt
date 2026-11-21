@@ -31,7 +31,7 @@ class EventViewModel @Inject constructor(
 
     private val _bookmarkedEventIds = MutableStateFlow<Set<String>>(emptySet())
 
-    val bookmarkedEventIds: StateFlow<Set<String>> = _bookmarkedEventIds
+    val bookmarkedEventIds: StateFlow<Set<String>> = _bookmarkedEventIds.asStateFlow()
 
     fun fetchUserLocation() {
         viewModelScope.launch {
